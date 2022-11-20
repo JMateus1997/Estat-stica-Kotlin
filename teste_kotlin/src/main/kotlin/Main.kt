@@ -7,14 +7,21 @@ fun main() {
     val listaMercado2: ListaMercado = ListaMercado()
     val listaMercado3: ListaMercado = ListaMercado()
     val listaData: MutableList<String?> = mutableListOf()
+    val tempoLeitura: Double
 
     try {
+        val tempoInicialLeitura = System.nanoTime()
 
         val conteudoCSV = BufferedReader(FileReader(csvFile))
         val cabecalho = conteudoCSV.readLine()
         val conteudo = conteudoCSV.readLines()
         var linhas: MutableList<String?>
         val nomes: MutableList<String> = cabecalho.split(",").toMutableList()
+
+        val tempoFinalLeitura = System.nanoTime()
+
+        tempoLeitura = (tempoFinalLeitura - tempoInicialLeitura).toDouble()
+
         listaMercado1.nome = nomes[1]
         listaMercado2.nome = nomes[2]
         listaMercado3.nome = nomes[3]
@@ -29,13 +36,7 @@ fun main() {
             listaMercado3.precoMoeda.add(linhas[3]?.toDouble())
 
         }
-        println(listaMercado1.nome)
-        println(listaMercado2.nome)
-        println(listaMercado3.nome)
 
-        println(listaMercado1.precoMoeda)
-        println(listaMercado2.precoMoeda)
-        println(listaMercado3.precoMoeda)
 
     } finally {
 
@@ -49,7 +50,11 @@ fun main() {
 
     val dadosMercado3: DadosMercado = Estatistica(listaMercado3)
     mostraResultados(dadosMercado3)
+
+    println("tempo de Leitura de arquivo CSV: \n${tempoLeitura/1000000} ms")
+
 }
+
 
 fun mostraResultados(dadosMercado: DadosMercado){
 
@@ -58,6 +63,10 @@ fun mostraResultados(dadosMercado: DadosMercado){
     println("Media: \n${dadosMercado.media}")
     println("Variancia: \n${dadosMercado.variancia}")
     println("Desvio: \n${dadosMercado.desvio}")
+    println("Tempo de Calculo de Retornos: \n${dadosMercado.tempoRetorno} ms")
+    println("Tempo de Calculo de Media: \n${dadosMercado.tempoMedia} ms")
+    println("Tempo de Calculo de Variancia: \n${dadosMercado.tempoVariancia} ms")
+    println("Tempo de Calculo de Desvio: \n${dadosMercado.tempoDesvio} ms")
 
 }
 
